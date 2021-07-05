@@ -2,6 +2,7 @@
 // 検証ツールの console にファイル全て貼り付けて実行する
 // HOW TO USE:
 //    getPdfSince(), getPdfSince("2021/07/03")
+//
 // CAUTION: 同日の取り扱いには注意
 //
 function getPdfSince(lastAddAt) {
@@ -43,9 +44,11 @@ function getPdfSince(lastAddAt) {
   }
   printDataSince(pdfInfos, date);
 }
+
 function isPdfName(content) {
   return content.slice(-4) === ".pdf"
 }
+
 function getUpdatedAt(elm) {
   let has_updated_at = elm.hasAttribute("data-tooltip")
   && (elm.getAttribute("data-tooltip").slice(0,4) === "最終更新");
@@ -65,19 +68,24 @@ function getUpdatedAt(elm) {
     updated_at: updated_at
   }
 }
+
+// Notionに取り込みやすいように、綺麗なCSVで表示
+// 区切り文字は変えられる
 function printDataSince(pdfInfos, date) {
   console.log(pdfInfos);
-  // let result = [];
+  // CSV の区切り文字
+  const SERPARATOR = "\t";
   let result = "";
   for (let i = 0; i < pdfInfos.length; i++) {
     const info = pdfInfos[i];
     if (isInfoNew(info.updated_at, date)) {
-      // result.push();
-      result += info.name + "\t" + info.url + "\n";
+      // 必要な情報があれば追加する
+      result += info.name + SERPARATOR + info.url + "\n";
     }
   }
   console.log(result);
 }
+
 function isInfoNew(pdfDate, date) {
   // pdfDateが時間（当日の更新）ならtrueにする
   if (pdfDate.includes(":")) {

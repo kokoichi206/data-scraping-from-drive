@@ -1,0 +1,13 @@
+{
+  "name": "Python Project",
+  "dockerComposeFile": "docker-compose.yml",
+  "settings": {
+    "python.pythonPath": "/usr/local/bin/python"
+  },
+  "extensions": [
+    "ms-python.python",
+    "kevinrose.vsc-python-indent",
+    "editorconfig.editorconfig"
+  ],
+  "workspaceFolder": "/app"
+}

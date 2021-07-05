@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="showResult()">CLICK ME</button>
+    <div id="result"></div>
+</body>
+</html>
+
+
+<script>
+    let result = document.getElementById("result");
+
+    async function fetchUrl(url) {
+        let text = await fetch(url);
+        await console.log(text);
+        await console.log(typeof(text));
+        result.innerHTML = await text;
+    };
+    function showResult(){
+        console.log("Clicked");
+        fetchUrl("https://www.google.com/search?q=font+montserrat&rlz=1C5CHFA_enJP913JP914&sxsrf=ALeKk01JLSFcll1HZIcykOJx242YFLEZ9A%3A1625401494212&ei=lqjhYK6zDPuJr7wPxYeG8AY&oq=font+montserrat&gs_lcp=Cgdnd3Mtd2l6EAMyAggAMgUIABDLATIFCAAQywEyBQgAEMsBMgUIABDLATIFCAAQywEyBQgAEMsBMgUIABDLAToHCAAQsQMQQzoKCAAQsQMQgwEQQzoICAAQsQMQgwE6BAgAEEM6BQgAELEDOgQIABAEOgcIABAKEMsBOgQIABAeSgQIQRgAULSBLljQuS5g77suaAFwAHgBgAH9B4gByS2SAQ0yLTUuMi4xLjMuMS4xmAEAoAEBqgEHZ3dzLXdpesABAQ&sclient=gws-wiz&ved=0ahUKEwiu1re1tMnxAhX7xIsBHcWDAW4Q4dUDCA4&uact=5");
+    }
+    
+
+    const divs = document.getElementsByTagName("div");
+    let base_url = "https://drive.google.com/file/d/";
+    let suffix = "/view?usp=sharing";
+
+    let pdfInfos = [];
+    let info = {};
+    for (let i = 0; i < divs.length; i++) {
+        let div = divs[i];
+        if (div.hasAttribute("data-id")) {
+            console.log(div.getAttribute("data-id"));
+            const inner_divs = div.getElementsByTagName("div");
+            info = {};
+            info["url"] = base_url + div.getAttribute("data-id") + suffix;
+            for (let i = 0; i < inner_divs.length; i++) {
+                const inner_div = inner_divs[i];
+                if (isPdfName(inner_div.innerHTML)){
+                    info["name"] = inner_div.textContent;
+                    pdfInfos.push(info);
+                    console.log(info);
+                    break
+                }
+            }
+        }
+    }
+    console.log(pdfInfos);
+    function isPdfName(content) {
+        return content.slice(-4) === ".pdf"
+    }
+
+</script>
